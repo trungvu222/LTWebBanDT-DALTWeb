@@ -2144,12 +2144,14 @@
     <Content Include="Content\images\items\7.jpg" />
     <Content Include="Content\images\items\8.jpg" />
     <Content Include="Content\images\items\9.jpg" />
+    <Content Include="Content\images\items\ipad.jfif" />
     <Content Include="Content\images\items\iphone11.png" />
     <Content Include="Content\images\items\iphone12.png" />
     <Content Include="Content\images\items\iphone122.png" />
     <Content Include="Content\images\items\iphone13.png" />
     <Content Include="Content\images\items\iphone14.png" />
     <Content Include="Content\images\items\iphoneX.jfif" />
+    <Content Include="Content\images\items\laptop.jfif" />
     <Content Include="Content\images\items\oppo.png" />
     <Content Include="Content\images\items\samsungs20.png" />
     <Content Include="Content\images\items\samsungs21.png" />
