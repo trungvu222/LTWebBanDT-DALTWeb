@@ -12,7 +12,7 @@ namespace LTWebBanDT.Controllers
 {
     public class HomeController : Controller
     {
-        LTWebBanHangEntities objLTWebBanHangEntities = new LTWebBanHangEntities();
+        LTWebBanHangEntities objLTWebBanHangEntities = new LTWebBanHangEntities();//Chứa thông tin kết nối csdl để kết nối
         public ActionResult Index()
         {
             HomeModel objHomeModel = new HomeModel();
@@ -48,18 +48,18 @@ namespace LTWebBanDT.Controllers
             //kiem tra va luu vao db
             if (ModelState.IsValid)
             {
-                var check = objLTWebBanHangEntities.Users.FirstOrDefault(s => s.Email == _user.Email);
-                if (check == null)
+                var check = objLTWebBanHangEntities.Users.FirstOrDefault(s => s.Email == _user.Email);//kiểm tra xem form có hợp lệ không,sẽ lấy email dưới csdl lên
+                if (check == null) //email chưa tồn tại thì sẽ cho đky mới
                 {
-                    _user.Password = GetMD5(_user.Password);
-                    objLTWebBanHangEntities.Configuration.ValidateOnSaveEnabled = false;
-                    objLTWebBanHangEntities.Users.Add(_user);
-                    objLTWebBanHangEntities.SaveChanges();
-                    return RedirectToAction("Index");
+                    _user.Password = GetMD5(_user.Password);//sau khi tạo mật khẩu sẽ ãm hóa thành một chuỗi,bảo mật thông tin người dùng khi đăng nhập hệ thống
+                    objLTWebBanHangEntities.Configuration.ValidateOnSaveEnabled = false;//mã hóa mật khẩu md5
+                    objLTWebBanHangEntities.Users.Add(_user);//thêm user vào model
+                    objLTWebBanHangEntities.SaveChanges();//lưu vào csdl
+                    return RedirectToAction("Index");//trở về trang chủ
                 }
                 else
                 {
-                    ViewBag.error = "Email already exists";
+                    ViewBag.error = "Email already exists";//email đã tồn tại trong csdl và sẽ báo tạo lại
                     return View();
                 }
             }
@@ -74,17 +74,17 @@ namespace LTWebBanDT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login(string email, string password)//nhận thông tin nhập từ trang login
         {
             if (ModelState.IsValid)
             {
 
 
-                var f_password = GetMD5(password);
-                var data = objLTWebBanHangEntities.Users.Where(s => s.Email.Equals(email) && s.Password.Equals(f_password)).ToList();
-                if (data.Count() > 0)
+                var f_password = GetMD5(password);//mật khẩu sẽ được mã hóa thành một chuỗi
+                var data = objLTWebBanHangEntities.Users.Where(s => s.Email.Equals(email) && s.Password.Equals(f_password)).ToList();//so sánh email và mật khẩu có tồn tại trong hệ thống không
+                if (data.Count() > 0) //nếu tồn tại trong hệ thống
                 {
-                    //add session
+                    //sẽ lưu dữ liệu vào session
                     Session["FullName"] = data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName;
                     Session["Email"] = data.FirstOrDefault().Email;
                     Session["idUser"] = data.FirstOrDefault().Id;
@@ -102,11 +102,11 @@ namespace LTWebBanDT.Controllers
         //Logout
         public ActionResult Logout()
         {
-            Session.Clear();//remove session
-            return RedirectToAction("Login");
+            Session.Clear();//sau khi đăng xuất sẽ xóa session vừa khởi tạo
+            return RedirectToAction("Login");//trở về trang đăng nhập
         }
 
-        //Create a string MD5
+        //tạo mã hóa mật khẩu MD5
         public static string GetMD5(string str)
         {
             MD5 md5 = new MD5CryptoServiceProvider();

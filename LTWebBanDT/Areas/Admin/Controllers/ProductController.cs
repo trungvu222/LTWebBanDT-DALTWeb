@@ -18,16 +18,16 @@ namespace LTWebBanDT.Areas.Admin.Controllers
         LTWebBanHangEntities objLTWebBanHangEntities = new LTWebBanHangEntities();
 
         // GET: Admin/Product
-        public ActionResult Index(string currentFilter, string SearchString, int? page)
+        public ActionResult Index(string currentFilter, string SearchString, int? page) //khi nhấn button tìm kiếm sẽ gọi qua index của controller, searchstring là dữ liệu tìm kiếm,page dữ liệu khi người dùng nhấn vào trang
         {
-            var lstProduct = new List<Product>();
-            if( SearchString != null)
+            var lstProduct = new List<Product>(); //tạo danh sách sản phẩm
+            if( SearchString != null) //nếu không tìm kiếm thì sẽ để page bằng 1
             {
                 page = 1;
             }
             else
             {
-                SearchString = currentFilter;
+                SearchString = currentFilter;//nhấn tìm kiếm thì bên view sẽ trả về controller và biến currentfilter sẽ tìm kiếm với searching
             }
             if (!string.IsNullOrEmpty(SearchString))
             {
@@ -45,7 +45,7 @@ namespace LTWebBanDT.Areas.Admin.Controllers
             int pageNumber = (page ?? 1);
             //Sắp xếp theo id sản phẩm, sản phẩm mới đưa lên đầu
             lstProduct = lstProduct.OrderByDescending(n => n.Id).ToList();
-            return View(lstProduct.ToPagedList(pageNumber, pageSize));
+            return View(lstProduct.ToPagedList(pageNumber, pageSize)); //truyền number và size vào pagedlist
         }
 
         [HttpGet]
@@ -57,24 +57,27 @@ namespace LTWebBanDT.Areas.Admin.Controllers
 
         [ValidateInput(false)]
         [HttpPost]
-        public ActionResult Create(Product objProduct)
+        public ActionResult Create(Product objProduct) //lấy đc dữ liệu sản phẩm
         {
-            this.LoadData();
+            this.LoadData(); //load dữ liệu
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (objProduct.ImageUpload != null)
+                    if (objProduct.ImageUpload != null) //kiểm tra hình ảnh xem có up hình lên không
                     {
                         string fileName = Path.GetFileNameWithoutExtension(objProduct.ImageUpload.FileName);
+                        //tên hình
                         string extension = Path.GetExtension(objProduct.ImageUpload.FileName);
+                        //png
                         fileName = fileName + extension;
+                        //tenhinh.png
                         objProduct.Avartar = fileName;
-                        objProduct.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/Content/images"), fileName));
+                        objProduct.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/Content/images"), fileName)); //lấy đc hình ảnh sau đó lưu vào đường dẫn
                     }
-                    objProduct.CreatedOnUtc = DateTime.Now;
-                    objLTWebBanHangEntities.Products.Add(objProduct);
-                    objLTWebBanHangEntities.SaveChanges();
+                    objProduct.CreatedOnUtc = DateTime.Now; //gán thời gian hiện tại
+                    objLTWebBanHangEntities.Products.Add(objProduct); //thêm sản phẩm
+                    objLTWebBanHangEntities.SaveChanges(); //lưu dữ liệu vào csdl
 
                     return RedirectToAction("Index");
                 }
@@ -102,8 +105,8 @@ namespace LTWebBanDT.Areas.Admin.Controllers
         {
             var objProduct = objLTWebBanHangEntities.Products.Where(n => n.Id == objPro.Id).FirstOrDefault();
 
-            objLTWebBanHangEntities.Products.Remove(objProduct);
-            objLTWebBanHangEntities.SaveChanges();
+            objLTWebBanHangEntities.Products.Remove(objProduct); //xóa sản phẩm khỏi bảng product
+            objLTWebBanHangEntities.SaveChanges(); //lưu vào csdl
             return RedirectToAction("Index");
         }
 
@@ -116,7 +119,7 @@ namespace LTWebBanDT.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Edit( Product objProduct)
         {
-            if (objProduct.ImageUpload != null)
+            if (objProduct.ImageUpload != null) //hình ảnh null thì sẽ không hiển thị
             {
                 string fileName = Path.GetFileNameWithoutExtension(objProduct.ImageUpload.FileName);
                 string extension = Path.GetExtension(objProduct.ImageUpload.FileName);
@@ -124,8 +127,8 @@ namespace LTWebBanDT.Areas.Admin.Controllers
                 objProduct.Avartar = fileName;
                 objProduct.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/Content/images/"), fileName));
             }
-            objLTWebBanHangEntities.Entry(objProduct).State = EntityState.Modified;
-            objLTWebBanHangEntities.SaveChanges();
+            objLTWebBanHangEntities.Entry(objProduct).State = EntityState.Modified;//thay đổi dữ liệu và sau đó cập nhật vào bảng
+            objLTWebBanHangEntities.SaveChanges(); //lưu vào csdl
             return RedirectToAction("Index");
         }
 

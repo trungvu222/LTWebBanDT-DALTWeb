@@ -14,17 +14,17 @@ namespace LTWebBanDT.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            return View((List<CartModel>)Session["cart"]);
+            return View((List<CartModel>)Session["cart"]); //lấy lại session truyền xuống csdl rồi load dữ liệu đặt hàng
         }
 
-        public ActionResult AddToCart(int id, int quantity)
+        public ActionResult AddToCart(int id, int quantity) //Hứng đc 2 giá trị khi lấy từ Id ajax truyền về controller
         {
-            if (Session["cart"] == null)
+            if (Session["cart"] == null) //kiểm tra giỏ hàng xem có bằng null không
             {
                 List<CartModel> cart = new List<CartModel>();
-                cart.Add(new CartModel { Product = objLTWebBanHangEntities.Products.Find(id), Quantity = quantity });
-                Session["cart"] = cart;
-                Session["count"] = 1;
+                cart.Add(new CartModel { Product = objLTWebBanHangEntities.Products.Find(id), Quantity = quantity }); //dựa vào Id xuống csdl lấy sản phẩm lên theo id sau đó add vào danh sách cartModel
+                Session["cart"] = cart; //Lưu cart vào session
+                Session["count"] = 1; //tạo session cao hiển thị số lượng
             }
             else
             {
@@ -43,7 +43,7 @@ namespace LTWebBanDT.Controllers
                     //Tính lại số sản phẩm trong giỏ hàng
                     Session["count"] = Convert.ToInt32(Session["count"]) + 1;
                 }
-                Session["cart"] = cart;
+                Session["cart"] = cart; //lưu vào session cart
             }
             return Json(new { Message = "Thành công", JsonRequestBehavior.AllowGet });
         }
@@ -60,10 +60,10 @@ namespace LTWebBanDT.Controllers
         //Xóa sản phẩm khỏi giỏ hàng theo id
         public ActionResult Remove(int Id)
         {
-            List<CartModel> li = (List<CartModel>)Session["cart"];
-            li.RemoveAll(x => x.Product.Id == Id);
-            Session["cart"] = li;
-            Session["count"] = Convert.ToInt32(Session["count"]) - 1;
+            List<CartModel> li = (List<CartModel>)Session["cart"]; //Lấy giá trị session sau đó gán vào li
+            li.RemoveAll(x => x.Product.Id == Id); //sau đó xóa sản phẩm trong cart
+            Session["cart"] = li; //truyền session cart vào li để lấy dữ liệu xóa
+            Session["count"] = Convert.ToInt32(Session["count"]) - 1; //trừ vào count theo số lượng xóa
             return Json(new { Message = "Thành công", JsonRequestBehavior.AllowGet });
         }
     }

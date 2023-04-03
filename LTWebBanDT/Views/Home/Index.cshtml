@@ -35,7 +35,6 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img src="~/Content/~/Content/images/logo.png" />
                                     <img src="~/Content/images/banners/slide1.jpg" alt="First slide">
                                 </div>
                                 <div class="carousel-item">
@@ -59,12 +58,12 @@
                     </div> <!-- col.// -->
                     <div class="col-md d-none d-lg-block flex-grow-1">
                         <aside class="special-home-right">
-                            <h6 class="bg-blue text-center text-white mb-0 p-2">Danh mục phổ biến</h6>
+                            <h6 class="bg-blue text-center text-white mb-0 p-2">Sản phẩm phổ biến</h6>
 
                             <div class="card-banner border-bottom">
                                 <div class="py-3" style="width:80%">
                                     <h6 class="card-title">Điện thoại</h6>
-                                    <a href="#" class="btn btn-secondary btn-sm"> Xem ngay </a>
+                                    <a href="~/Product/Detail/5" class="btn btn-secondary btn-sm"> Xem ngay </a>
                                 </div>
                                 <img src="~/Content/images/items/iphone122.png" height="80" class="img-bg">
                             </div>
@@ -140,7 +139,7 @@
                     <div class="home-category-banner bg-light-orange">
                         <h5 class="title">Iphone đang đứng trong top xu hướng được săn đón</h5>
                         <p>Những chiếc Iphone rất mạnh mẽ, hiện đại và sang trọng. </p>
-                        <a href="#" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
+                        <a href="~/Category/ProductCategory/1" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
                         <img src="~/Content/images/items/iphone13.png" class="img-bg">
                     </div>
 
@@ -150,7 +149,7 @@
                         @foreach (var item in Model.ListProduct.Where(n => n.BrandId == 1))
                         {
                             <li class="col-6 col-lg-3 col-md-4">
-                                <a href="#" class="item">
+                                <a href="~/Product/Detail/@item.Id" class="item">
                                     <div class="card-body">
                                         <h6 class="title">Chiếc điện thoại mạnh mẽ và cá tính thể thao dành cho mọi người  </h6>
                                         <img class="img-sm float-right" src="~/Content/images/items/@item.Avartar">
@@ -179,7 +178,7 @@
                     <div class="home-category-banner bg-light-orange">
                         <h5 class="title">Điện thoại Samsung thời thượng và khí thế</h5>
                         <p>Samsung luôn mang lại cho người dùng cảm giác cầm rất là đã với màn hình to và mạnh mẽ. </p>
-                        <a href="#" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
+                        <a href="~/Category/ProductCategory/1" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
                         <img src="~/Content/images/items/samsungzflip4.png" class="img-bg">
                     </div>
 
@@ -189,7 +188,7 @@
                         @foreach (var item in Model.ListProduct.Where(n => n.BrandId == 2))
                         {
                             <li class="col-6 col-lg-3 col-md-4">
-                                <a href="#" class="item">
+                                <a href="~/Product/Detail/@item.Id" class="item">
                                     <div class="card-body">
                                         <h6 class="title">Những chiếc Samsung luôn được mọi người săn đón  </h6>
                                         <img class="img-sm float-right" src="~/Content/images/items/@item.Avartar">
@@ -278,9 +277,9 @@
             {
                 <div class="col-xl-2 col-lg-3 col-md-4 col-6">
                     <div href="#" class="card card-sm card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="~/Content/images/items/@item.Avartar"> </a>
+                        <a href="~/Product/Detail/@item.Id" class="img-wrap"> <img src="~/Content/images/items/@item.Avartar"> </a>
                         <figcaption class="info-wrap">
-                            <a href="#" class="title">@item.Name</a>
+                            <a href="~/Product/Detail/@item.Id" class="title">@item.Name</a>
                             <div class="price mt-1">@item.Price</div> <!-- price-wrap.// -->
                         </figcaption>
                     </div>
