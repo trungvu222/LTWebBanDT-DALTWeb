@@ -16,10 +16,9 @@ namespace LTWebBanDT.Controllers
         // GET: Payment
         public ActionResult Index()
         {
-            //Từ view actionIndex gọi sang controller
             if (Session["idUser"] == null)
             {
-                return RedirectToAction("Login", "Home"); //Khi nhấn thanh toán nếu chưa đăng nhập thì sẽ trả về trang đăng nhập
+                return RedirectToAction("Login", "Home"); 
             }
             else
             {
@@ -28,19 +27,18 @@ namespace LTWebBanDT.Controllers
                 //Gán dữ liệu cho bảng order
                 Order objOrder = new Order();
                 objOrder.Name = "DonHang-" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                objOrder.UserId = int.Parse(Session["idUser"].ToString()); //Lấy userid
+                objOrder.UserId = int.Parse(Session["idUser"].ToString()); 
                 objOrder.CreatedOnUtc = DateTime.Now;
                 objOrder.Status = 1;
                 objLTWebBanHangEntities.Orders.Add(objOrder);
-                //Lưu thông tin dữ liệu vào bảng order
                 objLTWebBanHangEntities.SaveChanges();
 
                 //Lấy OrderId vừa mới tạo để lưu vào bảng OrderDetail
                 int intOrderId = objOrder.Id;
 
-                List<OrderDetail> lstOrderDetail = new List<OrderDetail>(); //Id vừa sinh ra để lưu vào bảng order detail
+                List<OrderDetail> lstOrderDetail = new List<OrderDetail>(); 
 
-                foreach (var item in lstCart) //Foreach để lập giỏ hàng bao nhiêu bảng và sản phẩm gán id số lượng
+                foreach (var item in lstCart) 
                 {
                     OrderDetail obj = new OrderDetail();
                     obj.Quantity = item.Quantity;
@@ -49,7 +47,7 @@ namespace LTWebBanDT.Controllers
                     lstOrderDetail.Add(obj);
                 }
                 objLTWebBanHangEntities.OrderDetails.AddRange(lstOrderDetail);
-                objLTWebBanHangEntities.SaveChanges(); //lưu vào bảng order detail
+                objLTWebBanHangEntities.SaveChanges();
             }
             return View();
         }
