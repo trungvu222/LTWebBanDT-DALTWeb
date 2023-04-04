@@ -17,7 +17,7 @@ namespace LTWebBanDT.Controllers
             return View((List<CartModel>)Session["cart"]); //lấy lại session truyền xuống csdl rồi load dữ liệu đặt hàng
         }
 
-        public ActionResult AddToCart(int id, int quantity) //Hứng đc 2 giá trị khi lấy từ Id ajax truyền về controller
+        public ActionResult AddToCart(int id, int quantity) //Nhận đc 2 giá trị khi lấy từ Id ajax truyền về controller
         {
             if (Session["cart"] == null) //kiểm tra giỏ hàng xem có bằng null không
             {
